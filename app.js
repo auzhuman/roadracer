@@ -40,19 +40,19 @@ window.onload = function(){
 
     // figter carload
     fcar = new Image();
-    fcar.src = "../img/policecar.png"
+    fcar.src = "./img/policecar.png"
 
     // enemy car laod
     ecar = new Image();
-    ecar.src = "../img/greencar.png"
+    ecar.src = "./img/greencar.png"
 
     // blockade
     blocks = new Image();
-    blocks.src = "../img/block.png"
+    blocks.src = "./img/block.png"
 
     // bomb
     bomb = new Image();
-    bomb.src = "../img/Bomb.png"
+    bomb.src = "./img/Bomb.png"
 
     drawinit()
 

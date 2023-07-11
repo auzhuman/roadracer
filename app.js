@@ -262,8 +262,8 @@ function placeCars() {
             img : ecar,
             x: randomX,
             y: 0,
-            width: 60,
-            height: 80,
+            width: 90,
+            height: 130,
             speed: enemyspeed
         };
         const block = {

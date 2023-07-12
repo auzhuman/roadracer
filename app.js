@@ -94,7 +94,7 @@ function startGame() {
     }
 
     gameLoop();
-    break;
+ 
 
 }
 function drawinit(){

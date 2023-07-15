@@ -12,10 +12,10 @@ var buttonHeight = 50;
 var buttonX = centerX - buttonWidth / 2;
 var buttonY = centerY - buttonHeight / 2;
 
-let enemyspeed = 10;
+let enemyspeed = 5 ;
 let projectilespeed = 10;
-const enemyCars = [];
-const projectiles = [];
+let enemyCars = [];
+let projectiles = [];
 
 // Game objects
 const figcar = {
@@ -74,26 +74,33 @@ window.onload = function(){
 }    
 
 function startGame() {
-    gameRunning = true;
-    score = 0;
-    lives = 3;
-    figcar.health = 100;
-    enemyCars.length = 0;
-    projectiles.length = 0;
+    if (!gameRunning){
 
-    placeCars();
+        gameRunning = true;
+        score = 0;
+        lives = 3;
+        figcar.health = 100;
 
-    // Game loop
-    function gameLoop() {
-    
-        if (gameRunning) {
-            updateGame();
-            drawGame();
-            requestAnimationFrame(gameLoop);
+        enemyCars = [];
+        projectiles = [];
+
+       
+        
+        placeCars();
+        
+        // Game loop
+        function gameLoop() {
+            
+            if (gameRunning) {
+                updateGame();
+                drawGame();
+                requestAnimationFrame(gameLoop);
+            }
         }
+        
+        gameLoop();
     }
-
-    gameLoop();
+ 
 
 }
 function drawinit(){
@@ -226,14 +233,14 @@ function drawGame() {
         ctx.fillText("Restart", buttonX+24, buttonY+30);
     
         document.addEventListener("click", function(event){
-            handleButtonClick(event,buttonX,buttonY,)    
+            handleButtonClick(event,buttonX,buttonY,startGame)    
         })
     }
 }
  
 
 
-function handleButtonClick(event) {
+function handleButtonClick(event,buttonX,buttonY,buttonclick) {
     var rect = canvas.getBoundingClientRect();
     var mouseX = event.clientX - rect.left;
     var mouseY = event.clientY - rect.top;
@@ -244,7 +251,7 @@ function handleButtonClick(event) {
         mouseY >= buttonY &&
         mouseY <= buttonY + buttonHeight
     ) {
-        startGame();
+        buttonclick();
         document.removeEventListener("click", handleButtonClick);
     }
 }
@@ -264,7 +271,7 @@ function placeCars() {
             y: 0,
             width: 90,
             height: 130,
-            speed: enemyspeed
+            speed: 5
         };
         const block = {
             img : blocks,
@@ -284,13 +291,17 @@ function placeCars() {
             }
             enemyCars.push(block)
             
-        }        
+        } 
+     
         else {
+            if(blockOrCar == 1 && randomX == 500){
+                enemyCar.x = randomX -50
+            }
             enemyCars.push(enemyCar)
             
             
         }
-    }, 500);
+    }, 2000);
 }
 
 
@@ -299,13 +310,17 @@ function resetPlayerPosition(lives) {
         figcar.y = canvas.height - 100;
         figcar.health = 100;
         figcar.lives = lives
-        // projectiles = 
+
+        enemyCars.forEach((enemyCar) => {
+            enemyCar.y = 0
+        })
         
     }
     
     function gameOver() {
         
         gameRunning = false;
+        enemyCars = [];
     }
     function fireProjectile() {
         const projectile = {
@@ -355,6 +370,3 @@ function resetPlayerPosition(lives) {
     }
     // Event listener for key releases
     document.addEventListener('keyup', handleKeyUp);
-
-
-

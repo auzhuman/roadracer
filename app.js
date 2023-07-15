@@ -157,7 +157,7 @@ function updateGame() {
 
         // Check for collision with figcar
         if (checkCollision(figcar, enemyCar)) {
-            figcar.health -= 100;
+            figcar.health -= 50;
             if (figcar.health <= 0) {
                 lives = lives -1;
                 if (lives > 0) {
@@ -166,7 +166,8 @@ function updateGame() {
                     gameOver();
                 }
             }
-            enemyCar.y = enemyCars.shift(); 
+            enemyCars.splice(enemyCars.indexOf(enemyCar), 1);
+
 
         }
     });
@@ -302,7 +303,7 @@ function placeCars() {
             
             
         }
-    }, 2000);
+    }, 1000);
 }
 
 

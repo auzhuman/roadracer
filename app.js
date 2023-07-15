@@ -74,26 +74,33 @@ window.onload = function(){
 }    
 
 function startGame() {
-    gameRunning = true;
-    score = 0;
-    lives = 3;
-    figcar.health = 100;
-    enemyCars.length = 0;
-    projectiles.length = 0;
+    if (!gameRunning){
 
-    placeCars();
+        gameRunning = true;
+        score = 0;
+        lives = 3;
+        figcar.health = 100;
 
-    // Game loop
-    function gameLoop() {
-    
-        if (gameRunning) {
-            updateGame();
-            drawGame();
-            requestAnimationFrame(gameLoop);
+        enemyCars = [];
+        projectiles = [];
+
+       
+        
+        placeCars();
+        
+        // Game loop
+        function gameLoop() {
+            
+            if (gameRunning) {
+                updateGame();
+                drawGame();
+                requestAnimationFrame(gameLoop);
+            }
         }
+        
+        gameLoop();
     }
-
-    gameLoop();
+ 
 
 }
 function drawinit(){

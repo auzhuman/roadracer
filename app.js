@@ -166,7 +166,8 @@ function updateGame() {
                     gameOver();
                 }
             }
-            // enemyCar.y = -enemyCar.height; // Reset enemy car position
+            enemyCar.y = enemyCars.shift(); 
+
         }
     });
 

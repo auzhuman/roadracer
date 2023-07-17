@@ -4,6 +4,8 @@ const ctx = canvas.getContext('2d');
 let gameRunning = false;
 let score = 0;
 let lives = 3;
+let intervalId;
+let time = 1000;
 
 var centerX = canvas.width/ 2;
 var centerY = canvas.height / 2;
@@ -75,6 +77,7 @@ window.onload = function(){
 
 function startGame() {
     if (!gameRunning){
+   
 
         gameRunning = true;
         score = 0;
@@ -84,14 +87,16 @@ function startGame() {
         enemyCars = [];
         projectiles = [];
 
-       
-        
-        placeCars();
+
+
+        clearInterval(intervalId);
+    
+        intervalId = placeCars();
         
         // Game loop
         function gameLoop() {
-            
-            if (gameRunning) {
+        
+        if (gameRunning) {
                 updateGame();
                 drawGame();
                 requestAnimationFrame(gameLoop);
@@ -161,7 +166,7 @@ function updateGame() {
             if (figcar.health <= 0) {
                 lives = lives -1;
                 if (lives > 0) {
-                    resetPlayerPosition(lives);
+                    resetPlayerPosition();
                 } else {
                     gameOver();
                 }
@@ -226,14 +231,13 @@ function drawGame() {
         ctx.strokeText(`GAME OVER`, canvas.width /2 - 170, canvas.height / 3);
         ctx.fillText(`GAME OVER`, canvas.width /2 - 170, canvas.height / 3);
 
-        // ctx.()e
 
         ctx.fillStyle = "lightblue";  
         ctx.fillRect(buttonX,buttonY,buttonWidth+20,buttonHeight);
         ctx.fillStyle = "yellow";
         ctx.font = "20px Arial bold";
         ctx.fillText("Restart", buttonX+24, buttonY+30);
-    
+        
         document.addEventListener("click", function(event){
             handleButtonClick(event,buttonX,buttonY,startGame)    
         })
@@ -263,14 +267,18 @@ function handleButtonClick(event,buttonX,buttonY,buttonclick) {
 
 
 function placeCars() {
-    const lanes = [100, 300, 500]; 
     
-    setInterval(() => {
+    const lanes = [100, 300, 500]; 
+
+
+    
+    return setInterval(() => {
+
         const randomX = lanes[Math.floor(Math.random() * lanes.length)];
         const enemyCar = {
             img : ecar,
             x: randomX,
-            y: 0,
+            y: -130,
             width: 90,
             height: 130,
             speed: 5
@@ -303,27 +311,25 @@ function placeCars() {
             
             
         }
-    }, 1000);
+    }, time);
 }
 
 
-function resetPlayerPosition(lives) {
+function resetPlayerPosition() {
         figcar.x = canvas.width / 2 -30;
         figcar.y = canvas.height - 100;
         figcar.health = 100;
-        figcar.lives = lives
-
-        enemyCars.forEach((enemyCar) => {
-            enemyCar.y = 0
-        })
+        
+ 
         
     }
     
     function gameOver() {
         
         gameRunning = false;
-        enemyCars = [];
+        
     }
+
     function fireProjectile() {
         const projectile = {
             x: figcar.x + figcar.width / 2 - 5,
@@ -345,7 +351,7 @@ function resetPlayerPosition(lives) {
         }
     
         
-        function handleKeyDown(event) {
+    function handleKeyDown(event) {
         if (event.key === 'ArrowLeft') {
             figcar.moveLeft = true;
         }else if (event.key === 'ArrowRight') {
